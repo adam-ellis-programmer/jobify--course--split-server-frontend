@@ -20,7 +20,8 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const user = await User.findOne({ email: req.body.email })
 
-  const isValidUser = user && (await comparePassword(req.body.password, user.password))
+  const isValidUser =
+    user && (await comparePassword(req.body.password, user.password))
   if (!isValidUser) throw new UnauthenticatedError('invalid credentials')
 
   if (!user) throw new UnauthenticatedError('invalid credentials')
@@ -33,13 +34,14 @@ export const login = async (req, res) => {
   res.cookie('token', token, {
     expires: new Date(Date.now() + oneDay),
     secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none', // ADD THIS LINE - allows cross-origin cookies
+    httpOnly: true, // ADD THIS LINE - security best practice
   })
 
   res.status(StatusCodes.CREATED).json({ msg: 'user logged in' })
-}
+} 
 
 export const logout = (req, res) => {
-
   res.cookie('token', 'logout', {
     httpOnly: true,
     expires: new Date(Date.now()),
