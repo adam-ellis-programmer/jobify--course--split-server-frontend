@@ -19,6 +19,8 @@ app.use(
   })
 )
 
+// app.use(cors({ origin: '*' }));
+
 // ROUTERS
 import jobRouter from './routes/jobRouter.js'
 import authRouter from './routes/authRouter.js'
