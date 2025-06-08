@@ -33,13 +33,14 @@ export const login = async (req, res) => {
 
   res.cookie('token', token, {
     expires: new Date(Date.now() + oneDay),
-    secure: process.env.NODE_ENV === 'production',
+    // secure: process.env.NODE_ENV === 'production',
+    secure: true,
     sameSite: 'none', // ADD THIS LINE - allows cross-origin cookies
     httpOnly: true, // ADD THIS LINE - security best practice
   })
 
   res.status(StatusCodes.CREATED).json({ msg: 'user logged in' })
-} 
+}
 
 export const logout = (req, res) => {
   res.cookie('token', 'logout', {
